@@ -15,21 +15,35 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void addTicket(Ticket ticket) {
+        if (ticket == null) {
+            throw new IllegalArgumentException("Ticket cannot be null");
+        }
         ticketStorage.addTicket(ticket);
     }
 
     @Override
     public Ticket getById(String id) {
-        return ticketStorage.getById(id);
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("ID cannot be null or empty");
+        }
+        Ticket ticket = ticketStorage.getById(id);
+        if (ticket == null) {
+            throw new IllegalArgumentException("Ticket with ID " + id + " not founded");
+        }
+        return ticket;
     }
 
     @Override
     public List<Ticket> gatAll() {
+
         return ticketStorage.gatAll();
     }
 
     @Override
     public void deleteById(String id) {
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("ID cannot be null or empty");
+        }
         ticketStorage.deleteById(id);
     }
 }
