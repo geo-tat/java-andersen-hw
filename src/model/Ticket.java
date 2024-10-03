@@ -5,7 +5,6 @@ import enums.SectorType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -133,18 +132,16 @@ public class Ticket {
         return creationTime;
     }
 
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "id='" + id + '\'' +
-                ", concertHall='" + concertHall + '\'' +
-                ", eventCode='" + eventCode + '\'' +
-                ", time=" + time.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT)) +
-                ", isPromo=" + isPromo +
-                ", stadiumSector=" + stadiumSector +
-                ", maxAllowedBackpackWeightInKg=" + maxAllowedBackpackWeightInKg +
-                ", creationTime=" + creationTime.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT)) +
-                ", ticketPrice=" + ticketPrice + Currency.getInstance(Locale.US) +
-                '}';
+    public void printTicketInfo() {
+        System.out.println("Ticket:" +
+                "\nid='" + id + '\'' +
+                ",\nconcertHall='" + concertHall + '\'' +
+                ",\neventCode='" + eventCode + '\'' +
+                ",\ntime=" + time.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT)) +
+                ",\nisPromo=" + isPromo +
+                ",\nstadiumSector=" + stadiumSector +
+                ",\nmaxAllowedBackpackWeightInKg=" + maxAllowedBackpackWeightInKg +
+                ",\ncreationTime=" + creationTime.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT)) +
+                ",\nticketPrice=" + ticketPrice + Currency.getInstance(Locale.US).getSymbol());
     }
 }
