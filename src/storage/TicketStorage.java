@@ -1,10 +1,10 @@
-package service;
+package storage;
 
 import model.Ticket;
 
 import java.util.List;
 
-public interface TicketService {
+public interface TicketStorage {
     void addTicket(Ticket ticket);
     Ticket getById(String id);
     List<Ticket> gatAll();
