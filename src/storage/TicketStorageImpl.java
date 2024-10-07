@@ -11,7 +11,7 @@ public class TicketStorageImpl implements TicketStorage {
 
     @Override
     public void addTicket(Ticket ticket) {
-        tickets.put(ticket.getId(),ticket);
+        tickets.put(ticket.getTicketId(),ticket);
     }
 
     @Override

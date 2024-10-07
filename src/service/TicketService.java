@@ -9,4 +9,7 @@ public interface TicketService {
     Ticket getById(String id);
     List<Ticket> gatAll();
     void deleteById(String id);
+
+    void share(String ticketId,String phone);
+    void share(String ticketId,String phone, String email);
 }
