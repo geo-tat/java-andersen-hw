@@ -1,7 +1,7 @@
 package model;
 
 
-public class Admin extends User{
+public class Admin extends User {
     @Override
     void printRole() {
         System.out.println("Role is ADMIN");

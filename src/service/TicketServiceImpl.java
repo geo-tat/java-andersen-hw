@@ -54,13 +54,13 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
     }
 
     @Override
-    public void share(String ticketId,String phone) {
+    public void share(String ticketId, String phone) {
         getById(ticketId);
         System.out.println("Send to the phone number: " + phone);
     }
 
     @Override
-    public void share(String ticketId,String phone, String email) {
+    public void share(String ticketId, String phone, String email) {
         getById(ticketId);
         System.out.println("Sending to the phone number: " + phone + " and to the email: " + email);
     }

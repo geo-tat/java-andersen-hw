@@ -10,7 +10,7 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Ticket implements Printable,Identifiable {
+public class Ticket implements Printable, Identifiable {
     private int classId;
     private final String ticketId;
     private final String concertHall;
@@ -66,7 +66,7 @@ public class Ticket implements Printable,Identifiable {
         this.eventCode = eventCode;
         this.time = time;
         this.isPromo = isPromo;
-        setStadiumSector(stadiumSector);
+        this.stadiumSector = stadiumSector;
         this.maxAllowedBackpackWeightInKg = maxAllowedBackpackWeightInKg;
         this.ticketPrice = ticketPrice;
     }

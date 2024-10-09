@@ -19,7 +19,7 @@ public class TicketStorageImpl implements TicketStorage, Identifiable, Printable
 
     @Override
     public void addTicket(Ticket ticket) {
-        tickets.put(ticket.getTicketId(),ticket);
+        tickets.put(ticket.getTicketId(), ticket);
     }
 
     @Override
