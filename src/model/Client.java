@@ -11,6 +11,7 @@ public class Client extends User{
     }
     @Override
     public void print() {
-        System.out.println("Class ID = " + geId());
+        System.out.println("Class ID = " + getId());
     }
+
 }

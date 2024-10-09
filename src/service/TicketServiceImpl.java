@@ -1,15 +1,20 @@
 package service;
 
-import model.ID;
+
+import model.Identifiable;
+import model.Printable;
 import model.Ticket;
 import storage.TicketStorage;
+import util.IdGenerator;
 
 import java.util.List;
 
-public class TicketServiceImpl extends ID implements TicketService {
+public class TicketServiceImpl implements TicketService, Identifiable, Printable {
+    private final int classId;
     private final TicketStorage ticketStorage;
 
     public TicketServiceImpl(TicketStorage ticketStorage) {
+        this.classId = IdGenerator.generateId();
         this.ticketStorage = ticketStorage;
     }
 
@@ -35,9 +40,9 @@ public class TicketServiceImpl extends ID implements TicketService {
     }
 
     @Override
-    public List<Ticket> gatAll() {
+    public List<Ticket> getAll() {
 
-        return ticketStorage.gatAll();
+        return ticketStorage.getAll();
     }
 
     @Override
@@ -58,5 +63,10 @@ public class TicketServiceImpl extends ID implements TicketService {
     public void share(String ticketId,String phone, String email) {
         getById(ticketId);
         System.out.println("Sending to the phone number: " + phone + " and to the email: " + email);
+    }
+
+    @Override
+    public int getId() {
+        return classId;
     }
 }

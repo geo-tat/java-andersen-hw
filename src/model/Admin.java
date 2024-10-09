@@ -1,5 +1,6 @@
 package model;
 
+
 public class Admin extends User{
     @Override
     void printRole() {
@@ -9,4 +10,5 @@ public class Admin extends User{
     public void checkTicket(Ticket ticket) {
         System.out.println("Checking ticket...");
     }
+
 }

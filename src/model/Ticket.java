@@ -1,6 +1,7 @@
 package model;
 
 import enums.SectorType;
+import util.IdGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,7 +10,8 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Ticket extends ID {
+public class Ticket implements Printable,Identifiable {
+    private int classId;
     private final String ticketId;
     private final String concertHall;
     private final String eventCode;
@@ -23,6 +25,7 @@ public class Ticket extends ID {
     private static final String DATA_TIME_FORMAT = "yyyy.MM.dd, HH:mm";
 
     public Ticket() {
+        this.classId = IdGenerator.generateId();
         this.ticketId = "";
         this.concertHall = "";
         this.eventCode = "";
@@ -38,6 +41,7 @@ public class Ticket extends ID {
                   SectorType stadiumSector,
                   double maxAllowedBackpackWeightInKg,
                   BigDecimal ticketPrice) {
+        this.classId = IdGenerator.generateId();
         if (ticketId.length() > 4) {
             throw new IllegalArgumentException("Size over 4 symbols");
         }
@@ -70,6 +74,7 @@ public class Ticket extends ID {
     public Ticket(String concertHall,
                   String eventCode,
                   LocalDateTime time) {
+        this.classId = IdGenerator.generateId();
 
         if (concertHall.length() > 10) {
             throw new IllegalArgumentException("Size over 10 chars");
@@ -171,5 +176,10 @@ public class Ticket extends ID {
                 ", creationTime=" + creationTime +
                 ", ticketPrice=" + ticketPrice +
                 '}';
+    }
+
+    @Override
+    public int getId() {
+        return classId;
     }
 }
