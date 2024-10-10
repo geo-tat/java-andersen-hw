@@ -33,10 +33,8 @@ public class Main {
         List<User> users = List.of(client, admin);
 
 
-
         client.getTicket();
         System.out.println(client.getId());
-
 
 
         // checking overriding print() and class Id

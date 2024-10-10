@@ -5,7 +5,6 @@ import model.Identifiable;
 import model.Printable;
 import model.Ticket;
 import storage.TicketStorage;
-import util.IdGenerator;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
     private final TicketStorage ticketStorage;
 
     public TicketServiceImpl(TicketStorage ticketStorage) {
-        this.classId = IdGenerator.generateId();
+        this.classId = generateId();
         this.ticketStorage = ticketStorage;
     }
 

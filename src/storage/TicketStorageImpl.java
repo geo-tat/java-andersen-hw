@@ -3,7 +3,6 @@ package storage;
 import model.Identifiable;
 import model.Printable;
 import model.Ticket;
-import util.IdGenerator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,7 @@ public class TicketStorageImpl implements TicketStorage, Identifiable, Printable
     private final Map<String, Ticket> tickets = new HashMap<>();
 
     public TicketStorageImpl() {
-        this.classId = IdGenerator.generateId();
+        this.classId = generateId();
     }
 
     @Override

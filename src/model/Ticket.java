@@ -1,7 +1,6 @@
 package model;
 
 import enums.SectorType;
-import util.IdGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,7 +10,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class Ticket implements Printable, Identifiable {
-    private int classId;
+    private final int classId;
     private final String ticketId;
     private final String concertHall;
     private final String eventCode;
@@ -25,7 +24,7 @@ public class Ticket implements Printable, Identifiable {
     private static final String DATA_TIME_FORMAT = "yyyy.MM.dd, HH:mm";
 
     public Ticket() {
-        this.classId = IdGenerator.generateId();
+        this.classId = generateId();
         this.ticketId = "";
         this.concertHall = "";
         this.eventCode = "";
@@ -41,7 +40,7 @@ public class Ticket implements Printable, Identifiable {
                   SectorType stadiumSector,
                   double maxAllowedBackpackWeightInKg,
                   BigDecimal ticketPrice) {
-        this.classId = IdGenerator.generateId();
+        this.classId = generateId();
         if (ticketId.length() > 4) {
             throw new IllegalArgumentException("Size over 4 symbols");
         }
@@ -74,7 +73,7 @@ public class Ticket implements Printable, Identifiable {
     public Ticket(String concertHall,
                   String eventCode,
                   LocalDateTime time) {
-        this.classId = IdGenerator.generateId();
+        this.classId = generateId();
 
         if (concertHall.length() > 10) {
             throw new IllegalArgumentException("Size over 10 chars");
