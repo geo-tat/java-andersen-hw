@@ -46,8 +46,4 @@ public class CustomArrayList<T> {
             array = Arrays.copyOf(array, array.length * 2);
         }
     }
-
-    public double getLOAD_COEFFICIENT() {
-        return LOAD_COEFFICIENT;
-    }
 }
