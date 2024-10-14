@@ -1,42 +1,33 @@
 package util;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Set;
 
 public class CustomHashSet<T> {
-    private static int capacity = 16;
-    private Object[] array;
-    private final double LOAD_COEFFICIENT = 0.8;
-    private int size;
+    private final HashMap<T, Boolean> map;
+    private static final Boolean PRESENT = Boolean.TRUE;
 
     public CustomHashSet() {
-        array = new Object[capacity];
+        map = new HashMap<>();
     }
 
-    public boolean add(T element) {
-        resize();
-        int index = getIndex(element);
-        while (array[index] != null) {
-            if (array[index].equals(element)) {
-                return false;
-            }
-            index = (index + 1) % array.length;
-        }
-        array[index] = element;
-        size++;
-        return true;
+    public void put(T key) {
+        map.put(key, PRESENT);
     }
 
-    private int getIndex(Object o) {
-        int hashCode = o.hashCode();
-        return hashCode & (array.length - 1);
+    public boolean contains(T key) {
+        return map.containsKey(key);
     }
 
-    private void resize() {
-        if (size == capacity * LOAD_COEFFICIENT) {
-            capacity = array.length * 2;
-            array = Arrays.copyOf(array, array.length * 2);
-        }
+    public void delete(T key) {
+        map.remove(key);
     }
 
+    public Set<T> iterate() {
+        return map.keySet();
+    }
 
+    public int size() {
+        return map.size();
+    }
 }
