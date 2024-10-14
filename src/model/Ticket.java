@@ -8,78 +8,105 @@ import java.time.format.DateTimeFormatter;
 import java.util.Currency;
 import java.util.Locale;
 
-public class Ticket {
-    private String id;
-    private String concertHall;
-    private String eventCode;
+import java.util.Objects;
+
+public class Ticket implements Printable, Identifiable {
+    private final int classId;
+    private final String ticketId;
+    private final String concertHall;
+    private final String eventCode;
     private LocalDateTime time;
-    private boolean isPromo;
+    private final boolean isPromo;
     private SectorType stadiumSector;
-    private double maxAllowedBackpackWeightInKg;
+    private final double maxAllowedBackpackWeightInKg;
     private final LocalDateTime creationTime = LocalDateTime.now();
-    private BigDecimal ticketPrice;
+    private final BigDecimal ticketPrice;
 
     private static final String DATA_TIME_FORMAT = "yyyy.MM.dd, HH:mm";
 
     public Ticket() {
+
+        this.classId = generateId();
+        this.ticketId = "";
+        this.concertHall = "";
+        this.eventCode = "";
+        this.isPromo = false;
+        this.maxAllowedBackpackWeightInKg = 0.0;
+        this.ticketPrice = BigDecimal.ZERO;
     }
 
-    public Ticket(String id, String concertHall,
+    public Ticket(String ticketId, String concertHall,
+
                   String eventCode,
                   LocalDateTime time,
                   boolean isPromo,
                   SectorType stadiumSector,
                   double maxAllowedBackpackWeightInKg,
                   BigDecimal ticketPrice) {
-        setId(id);
-        setConcertHall(concertHall);
-        setEventCode(eventCode);
+        this.classId = generateId();
+        if (ticketId.length() > 4) {
+            throw new IllegalArgumentException("Size over 4 symbols");
+        }
+        if (concertHall.length() > 10) {
+            throw new IllegalArgumentException("Size over 10 chars");
+        }
+
+        if (eventCode.length() != 3 || !eventCode.matches("\\d{3}")) {
+            throw new IllegalArgumentException("Must be 3 digits");
+        }
+
+        if (maxAllowedBackpackWeightInKg < 0) {
+            throw new IllegalArgumentException("Invalid argument");
+        }
+
+        if (ticketPrice.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Invalid argument");
+        }
+
+        this.ticketId = ticketId;
+        this.concertHall = concertHall;
+        this.eventCode = eventCode;
         this.time = time;
         this.isPromo = isPromo;
-        setStadiumSector(stadiumSector);
-        setMaxAllowedBackpackWeightInKg(maxAllowedBackpackWeightInKg);
-        setTicketPrice(ticketPrice);
+        this.stadiumSector = stadiumSector;
+        this.maxAllowedBackpackWeightInKg = maxAllowedBackpackWeightInKg;
+        this.ticketPrice = ticketPrice;
     }
 
     public Ticket(String concertHall,
                   String eventCode,
                   LocalDateTime time) {
-        setConcertHall(concertHall);
-        setEventCode(eventCode);
-        this.time = time;
-    }
+      
+        this.classId = generateId();
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        if (id.length() > 4) {
-            throw new IllegalArgumentException("Size over 4 symbols");
+        if (concertHall.length() > 10) {
+            throw new IllegalArgumentException("Size over 10 chars");
         }
-        this.id = id;
+        this.concertHall = concertHall;
+
+        if (eventCode.length() != 3 || !eventCode.matches("\\d{3}")) {
+            throw new IllegalArgumentException("Must be 3 digits");
+        }
+        this.eventCode = eventCode;
+        this.time = time;
+        this.ticketId = "";
+        this.isPromo = false;
+        this.maxAllowedBackpackWeightInKg = 0.0;
+        this.ticketPrice = BigDecimal.ZERO;
+    }
+
+
+    public String getTicketId() {
+        return ticketId;
     }
 
     public String getConcertHall() {
         return concertHall;
     }
 
-    public void setConcertHall(String concertHall) {
-        if (concertHall.length() > 10) {
-            throw new IllegalArgumentException("Size over 10 chars");
-        }
-        this.concertHall = concertHall;
-    }
 
     public String getEventCode() {
         return eventCode;
-    }
-
-    public void setEventCode(String eventCode) {
-        if (eventCode.length() != 3 || !eventCode.matches("\\d{3}")) {
-            throw new IllegalArgumentException("Must be 3 digits");
-        }
-        this.eventCode = eventCode;
     }
 
     public LocalDateTime getTime() {
@@ -94,10 +121,6 @@ public class Ticket {
         return isPromo;
     }
 
-    public void setPromo(boolean promo) {
-        isPromo = promo;
-    }
-
     public SectorType getStadiumSector() {
         return stadiumSector;
     }
@@ -110,23 +133,11 @@ public class Ticket {
         return maxAllowedBackpackWeightInKg;
     }
 
-    public void setMaxAllowedBackpackWeightInKg(double maxAllowedBackpackWeightInKg) {
-        if (maxAllowedBackpackWeightInKg < 0) {
-            throw new IllegalArgumentException("Invalid argument");
-        }
-        this.maxAllowedBackpackWeightInKg = maxAllowedBackpackWeightInKg;
-    }
 
     public BigDecimal getTicketPrice() {
         return ticketPrice;
     }
 
-    public void setTicketPrice(BigDecimal ticketPrice) {
-        if (ticketPrice.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Invalid argument");
-        }
-        this.ticketPrice = ticketPrice;
-    }
 
     public LocalDateTime getCreationTime() {
         return creationTime;
@@ -134,7 +145,8 @@ public class Ticket {
 
     public void printTicketInfo() {
         System.out.println("Ticket:" +
-                "\nid='" + id + '\'' +
+
+                "\nid='" + ticketId + '\'' +
                 ",\nconcertHall='" + concertHall + '\'' +
                 ",\neventCode='" + eventCode + '\'' +
                 ",\ntime=" + time.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT)) +
@@ -144,4 +156,38 @@ public class Ticket {
                 ",\ncreationTime=" + creationTime.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT)) +
                 ",\nticketPrice=" + ticketPrice + Currency.getInstance(Locale.US).getSymbol());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return Objects.equals(ticketId, ticket.ticketId) && Objects.equals(creationTime, ticket.creationTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ticketId, creationTime);
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticketId='" + ticketId + '\'' +
+                ", concertHall='" + concertHall + '\'' +
+                ", eventCode='" + eventCode + '\'' +
+                ", time=" + time +
+                ", isPromo=" + isPromo +
+                ", stadiumSector=" + stadiumSector +
+                ", maxAllowedBackpackWeightInKg=" + maxAllowedBackpackWeightInKg +
+                ", creationTime=" + creationTime +
+                ", ticketPrice=" + ticketPrice +
+                '}';
+    }
+
+    @Override
+    public int getId() {
+        return classId;
+    }
+
 }

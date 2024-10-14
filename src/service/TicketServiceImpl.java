@@ -1,14 +1,20 @@
 package service;
 
+import model.Identifiable;
+import model.Printable;
+
 import model.Ticket;
 import storage.TicketStorage;
 
 import java.util.List;
 
-public class TicketServiceImpl implements TicketService {
+
+public class TicketServiceImpl implements TicketService, Identifiable, Printable {
+    private final int classId;
     private final TicketStorage ticketStorage;
 
     public TicketServiceImpl(TicketStorage ticketStorage) {
+        this.classId = generateId();
         this.ticketStorage = ticketStorage;
     }
 
@@ -34,9 +40,9 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> gatAll() {
+    public List<Ticket> getAll() {
 
-        return ticketStorage.gatAll();
+        return ticketStorage.getAll();
     }
 
     @Override
@@ -45,5 +51,22 @@ public class TicketServiceImpl implements TicketService {
             throw new IllegalArgumentException("ID cannot be null or empty");
         }
         ticketStorage.deleteById(id);
+    }
+
+    @Override
+    public void share(String ticketId, String phone) {
+        getById(ticketId);
+        System.out.println("Send to the phone number: " + phone);
+    }
+
+    @Override
+    public void share(String ticketId, String phone, String email) {
+        getById(ticketId);
+        System.out.println("Sending to the phone number: " + phone + " and to the email: " + email);
+    }
+
+    @Override
+    public int getId() {
+        return classId;
     }
 }
