@@ -1,4 +1,5 @@
 import enums.SectorType;
+
 import model.Admin;
 import model.Client;
 import model.Ticket;
@@ -9,7 +10,9 @@ import storage.TicketStorageImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 import java.util.List;
+
 
 
 public class Main {
@@ -43,6 +46,7 @@ public class Main {
         // checking share methods
         service.share("0001", "+0303939399");
         service.share("0002", "+39341340", "test@test.com");
+
     }
 
 }

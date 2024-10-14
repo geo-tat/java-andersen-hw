@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class TicketStorageImpl implements TicketStorage, Identifiable, Printable {
     private final int classId;
     private final Map<String, Ticket> tickets = new HashMap<>();

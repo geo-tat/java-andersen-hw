@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Currency;
 import java.util.Locale;
+
 import java.util.Objects;
 
 public class Ticket implements Printable, Identifiable {
@@ -24,6 +25,7 @@ public class Ticket implements Printable, Identifiable {
     private static final String DATA_TIME_FORMAT = "yyyy.MM.dd, HH:mm";
 
     public Ticket() {
+
         this.classId = generateId();
         this.ticketId = "";
         this.concertHall = "";
@@ -34,6 +36,7 @@ public class Ticket implements Printable, Identifiable {
     }
 
     public Ticket(String ticketId, String concertHall,
+
                   String eventCode,
                   LocalDateTime time,
                   boolean isPromo,
@@ -73,6 +76,7 @@ public class Ticket implements Printable, Identifiable {
     public Ticket(String concertHall,
                   String eventCode,
                   LocalDateTime time) {
+      
         this.classId = generateId();
 
         if (concertHall.length() > 10) {
@@ -99,6 +103,7 @@ public class Ticket implements Printable, Identifiable {
     public String getConcertHall() {
         return concertHall;
     }
+
 
     public String getEventCode() {
         return eventCode;
@@ -128,9 +133,11 @@ public class Ticket implements Printable, Identifiable {
         return maxAllowedBackpackWeightInKg;
     }
 
+
     public BigDecimal getTicketPrice() {
         return ticketPrice;
     }
+
 
     public LocalDateTime getCreationTime() {
         return creationTime;
@@ -138,6 +145,7 @@ public class Ticket implements Printable, Identifiable {
 
     public void printTicketInfo() {
         System.out.println("Ticket:" +
+
                 "\nid='" + ticketId + '\'' +
                 ",\nconcertHall='" + concertHall + '\'' +
                 ",\neventCode='" + eventCode + '\'' +
@@ -181,4 +189,5 @@ public class Ticket implements Printable, Identifiable {
     public int getId() {
         return classId;
     }
+
 }

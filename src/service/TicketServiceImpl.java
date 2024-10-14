@@ -1,12 +1,13 @@
 package service;
 
-
 import model.Identifiable;
 import model.Printable;
+
 import model.Ticket;
 import storage.TicketStorage;
 
 import java.util.List;
+
 
 public class TicketServiceImpl implements TicketService, Identifiable, Printable {
     private final int classId;
