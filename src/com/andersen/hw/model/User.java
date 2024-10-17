@@ -1,6 +1,6 @@
-package model;
+package com.andersen.hw.model;
 
-import util.IdGenerator;
+import com.andersen.hw.util.IdGenerator;
 
 abstract public class User implements Identifiable, Printable {
     private final int classId;

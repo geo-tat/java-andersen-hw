@@ -1,12 +1,14 @@
-import enums.SectorType;
+package com.andersen.hw;
 
-import model.Admin;
-import model.Client;
-import model.Ticket;
-import model.User;
-import service.TicketService;
-import service.TicketServiceImpl;
-import storage.TicketStorageImpl;
+import com.andersen.hw.enums.SectorType;
+
+import com.andersen.hw.model.Admin;
+import com.andersen.hw.model.Client;
+import com.andersen.hw.model.Ticket;
+import com.andersen.hw.model.User;
+import com.andersen.hw.service.TicketService;
+import com.andersen.hw.service.TicketServiceImpl;
+import com.andersen.hw.storage.TicketStorageImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

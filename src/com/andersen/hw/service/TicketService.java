@@ -1,6 +1,6 @@
-package service;
+package com.andersen.hw.service;
 
-import model.Ticket;
+import com.andersen.hw.model.Ticket;
 
 import java.util.List;
 
