@@ -3,6 +3,8 @@ package storage;
 import model.Identifiable;
 import model.Printable;
 import model.Ticket;
+import util.CustomArrayList;
+import util.CustomHashSet;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.Map;
 public class TicketStorageImpl implements TicketStorage, Identifiable, Printable {
     private final int classId;
     private final Map<String, Ticket> tickets = new HashMap<>();
+    private final CustomArrayList<Ticket> customArrayTikets = new CustomArrayList<>();
+    private final CustomHashSet<Ticket> customHashSetTickets = new CustomHashSet<>();
 
     public TicketStorageImpl() {
         this.classId = generateId();
@@ -20,6 +24,8 @@ public class TicketStorageImpl implements TicketStorage, Identifiable, Printable
     @Override
     public void addTicket(Ticket ticket) {
         tickets.put(ticket.getTicketId(), ticket);
+        customArrayTikets.put(ticket);
+        customHashSetTickets.put(ticket);
     }
 
     @Override

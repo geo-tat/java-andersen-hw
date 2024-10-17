@@ -7,10 +7,12 @@ import model.User;
 import service.TicketService;
 import service.TicketServiceImpl;
 import storage.TicketStorageImpl;
+import util.CustomHashSet;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -21,32 +23,26 @@ public class Main {
         BigDecimal price = BigDecimal.valueOf(100);
         LocalDateTime timofEvent = LocalDateTime.of(2024, 12, 31, 12, 0);
 
-        for (int i = 0; i < 10; i++) {
-            Ticket ticket = new Ticket("000" + i, "Hall", "010", timofEvent, true, SectorType.C,
+        for (int i = 0; i < 30; i++) {
+            Ticket ticket = new Ticket("0" + i, "Hall", "010", timofEvent, true, SectorType.C,
                     23.0, price);
             service.addTicket(ticket);
+
         }
 
-        service.getById("0007").printTicketInfo();
-
-        Admin admin = new Admin();
-        Client client = new Client();
 
 
-        List<User> users = List.of(client, admin);
+        CustomHashSet<Ticket> set = new CustomHashSet<>();
 
+        set.put(service.getById("01"));
+        set.put(service.getById("03"));
+        set.put(service.getById("04"));
+        set.put(service.getById("06"));
+        Iterator<Ticket> iterator = set.iterator();
 
-        client.getTicket();
-        System.out.println(client.getId());
-
-
-        // checking overriding print() and class Id
-        client.print();
-
-        // checking share methods
-        service.share("0001", "+0303939399");
-        service.share("0002", "+39341340", "test@test.com");
-
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
     }
 
 }
