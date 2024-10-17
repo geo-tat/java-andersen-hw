@@ -1,5 +1,8 @@
 package util;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 public class CustomHashSet<T> {
     private int capacity = 10;
     private int size = 0;
@@ -110,7 +113,26 @@ public class CustomHashSet<T> {
         return false;
     }
 
-    public T[] iterate() {
-        return (T[]) array;
+
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                while (index < array.length && array[index] == null) {
+                    index++;
+                }
+                return index < array.length;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return (T) array[index++];
+            }
+        };
     }
 }

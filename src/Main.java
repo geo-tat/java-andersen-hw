@@ -7,10 +7,12 @@ import model.User;
 import service.TicketService;
 import service.TicketServiceImpl;
 import storage.TicketStorageImpl;
+import util.CustomHashSet;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -29,24 +31,18 @@ public class Main {
         }
 
 
-        Admin admin = new Admin();
-        Client client = new Client();
 
+        CustomHashSet<Ticket> set = new CustomHashSet<>();
 
-        List<User> users = List.of(client, admin);
+        set.put(service.getById("01"));
+        set.put(service.getById("03"));
+        set.put(service.getById("04"));
+        set.put(service.getById("06"));
+        Iterator<Ticket> iterator = set.iterator();
 
-
-        client.getTicket();
-        System.out.println(client.getId());
-
-
-        // checking overriding print() and class Id
-        client.print();
-
-        // checking share methods
-        service.share("0001", "+0303939399");
-        service.share("0002", "+39341340", "test@test.com");
-
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
     }
 
 }
