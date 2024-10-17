@@ -1,4 +1,4 @@
-package model;
+package com.andersen.hw.model;
 
 public interface Printable {
     default void print() {

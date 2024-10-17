@@ -1,6 +1,6 @@
-package storage;
+package com.andersen.hw.storage;
 
-import model.Ticket;
+import com.andersen.hw.model.Ticket;
 
 import java.util.List;
 
