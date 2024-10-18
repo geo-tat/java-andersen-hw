@@ -1,13 +1,11 @@
 package com.andersen.hw.storage;
 
-import model.Identifiable;
-import model.Printable;
-import model.Ticket;
-import util.CustomArrayList;
-import util.CustomHashSet;
+
 import com.andersen.hw.model.Identifiable;
 import com.andersen.hw.model.Printable;
 import com.andersen.hw.model.Ticket;
+import com.andersen.hw.util.CustomArrayList;
+import com.andersen.hw.util.CustomHashSet;
 
 import java.util.HashMap;
 import java.util.List;
