@@ -1,6 +1,6 @@
-package model;
+package com.andersen.hw.model;
 
-import util.IdGenerator;
+import com.andersen.hw.util.IdGenerator;
 
 public interface Identifiable {
 

@@ -1,10 +1,10 @@
-package service;
+package com.andersen.hw.service;
 
-import model.Identifiable;
-import model.Printable;
+import com.andersen.hw.model.Identifiable;
+import com.andersen.hw.model.Printable;
 
-import model.Ticket;
-import storage.TicketStorage;
+import com.andersen.hw.model.Ticket;
+import com.andersen.hw.storage.TicketStorage;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package model;
+package com.andersen.hw.model;
 
-import enums.SectorType;
+import com.andersen.hw.enums.SectorType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
