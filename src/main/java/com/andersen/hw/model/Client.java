@@ -1,6 +1,17 @@
 package com.andersen.hw.model;
 
+
+import java.time.LocalDateTime;
+
 public class Client extends User {
+    public Client(String name) {
+        super(name);
+    }
+
+    public Client(Long userId, String name, LocalDateTime creationDate) {
+        super(userId, name, creationDate);
+    }
+
     @Override
     void printRole() {
         System.out.println("Role is CLIENT");

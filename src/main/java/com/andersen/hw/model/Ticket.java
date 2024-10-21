@@ -1,28 +1,44 @@
 package com.andersen.hw.model;
 
 import com.andersen.hw.enums.SectorType;
+import com.andersen.hw.enums.TicketType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Currency;
 import java.util.Locale;
-
 import java.util.Objects;
 
 public class Ticket implements Printable, Identifiable {
-    private final int classId;
-    private final String ticketId;
-    private final String concertHall;
-    private final String eventCode;
+    private int classId;
+    private String ticketId;
+    private String concertHall;
+    private String eventCode;
     private LocalDateTime time;
-    private final boolean isPromo;
+    private boolean isPromo;
     private SectorType stadiumSector;
-    private final double maxAllowedBackpackWeightInKg;
-    private final LocalDateTime creationTime = LocalDateTime.now();
-    private final BigDecimal ticketPrice;
+    private double maxAllowedBackpackWeightInKg;
+    private LocalDateTime creationTime;
+    private BigDecimal ticketPrice;
+    private Client client;
+    private TicketType ticketType;
 
     private static final String DATA_TIME_FORMAT = "yyyy.MM.dd, HH:mm";
+
+
+    public Ticket(String ticketId, TicketType ticketType, Client client) {
+        this.ticketType = ticketType;
+        this.client = client;
+        this.ticketId = ticketId;
+    }
+
+    public Ticket(String ticketId, TicketType ticketType, Client client, LocalDateTime creationTime) {
+        this.ticketId = ticketId;
+        this.ticketType = ticketType;
+        this.client = client;
+        this.creationTime = creationTime;
+    }
 
     public Ticket() {
 
@@ -76,7 +92,7 @@ public class Ticket implements Printable, Identifiable {
     public Ticket(String concertHall,
                   String eventCode,
                   LocalDateTime time) {
-      
+
         this.classId = generateId();
 
         if (concertHall.length() > 10) {
@@ -141,6 +157,22 @@ public class Ticket implements Printable, Identifiable {
 
     public LocalDateTime getCreationTime() {
         return creationTime;
+    }
+
+    public TicketType getTicketType() {
+        return ticketType;
+    }
+
+    public void setTicketType(TicketType ticketType) {
+        this.ticketType = ticketType;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public void printTicketInfo() {

@@ -2,20 +2,22 @@ package com.andersen.hw.service;
 
 import com.andersen.hw.model.Identifiable;
 import com.andersen.hw.model.Printable;
-
 import com.andersen.hw.model.Ticket;
-import com.andersen.hw.storage.TicketStorage;
+import com.andersen.hw.storage.TicketStorageDao;
+import com.andersen.hw.storage.TicketStorageInMemoryImpl;
 
 import java.util.List;
 
 
 public class TicketServiceImpl implements TicketService, Identifiable, Printable {
     private final int classId;
-    private final TicketStorage ticketStorage;
+    private final TicketStorageInMemoryImpl ticketStorage;
+    private final TicketStorageDao ticketStorageDao;
 
-    public TicketServiceImpl(TicketStorage ticketStorage) {
-        this.classId = generateId();
+    public TicketServiceImpl(TicketStorageInMemoryImpl ticketStorage, TicketStorageDao ticketStorageDao) {
         this.ticketStorage = ticketStorage;
+        this.ticketStorageDao = ticketStorageDao;
+        this.classId = generateId();
     }
 
 
@@ -24,7 +26,7 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
         if (ticket == null) {
             throw new IllegalArgumentException("Ticket cannot be null");
         }
-        ticketStorage.addTicket(ticket);
+        ticketStorageDao.addTicket(ticket);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
         if (id == null || id.isEmpty()) {
             throw new IllegalArgumentException("ID cannot be null or empty");
         }
-        Ticket ticket = ticketStorage.getById(id);
+        Ticket ticket = ticketStorageDao.getById(id);
         if (ticket == null) {
             throw new IllegalArgumentException("Ticket with ID " + id + " not founded");
         }
@@ -42,7 +44,7 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
     @Override
     public List<Ticket> getAll() {
 
-        return ticketStorage.getAll();
+        return ticketStorageDao.getAll();
     }
 
     @Override
@@ -50,7 +52,15 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
         if (id == null || id.isEmpty()) {
             throw new IllegalArgumentException("ID cannot be null or empty");
         }
-        ticketStorage.deleteById(id);
+        ticketStorageDao.deleteById(id);
+    }
+
+    @Override
+    public void updateTicket(Ticket ticket) {
+        if (ticket == null) {
+            throw new IllegalArgumentException("Ticket cannot be null");
+        }
+        ticketStorageDao.updateTicket(ticket);
     }
 
     @Override
