@@ -23,19 +23,29 @@ public class Main {
         Client client1 = new Client("Andy");
         Client client2 = new Client("Mickey");
 
-        //     userService.addUser(client1);
-        //     userService.addUser(client2);
-        client1.setUserId(1);
-
-        Ticket ticket = new Ticket("021", TicketType.DAY, client1);
-        service.addTicket(ticket);
-
+        userService.addUser(client1);
+        userService.addUser(client2);
         List<User> users = userService.getAll();
+
+
+        Ticket ticket = new Ticket("021", TicketType.DAY, users.getFirst());
+        Ticket ticket1 = new Ticket("001", TicketType.MONTH, users.getFirst());
+
+        service.addTicket(ticket);
+        service.addTicket(ticket1);
+
+
         for (User user : users) {
             System.out.println(user.toString());
+
         }
-        //     Ticket result = service.getById("001");
+        Ticket result = service.getById("001");
+        System.out.println(result.toString());
 
+        service.deleteById("021");
 
+        for (User user : users) {
+            userService.deleteById(user.getUserId());
+        }
     }
 }

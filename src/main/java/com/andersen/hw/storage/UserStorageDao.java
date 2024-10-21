@@ -74,12 +74,19 @@ public class UserStorageDao implements UserStorage {
 
     @Override
     public void deleteById(long id) {
-        String sql = "DELETE FROM public.user WHERE id = ?";
+        String deleteTicketsSql = "DELETE FROM public.ticket WHERE user_id = ?";
+        String deleteUserSql = "DELETE FROM public.user WHERE id = ?";
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setLong(1, id);
-            stmt.executeUpdate();
+        try (Connection conn = DatabaseConnectionManager.getConnection()) {
+            try (PreparedStatement stmt = conn.prepareStatement(deleteTicketsSql)) {
+                stmt.setLong(1, id);
+                stmt.executeUpdate();
+            }
+
+            try (PreparedStatement stmt = conn.prepareStatement(deleteUserSql)) {
+                stmt.setLong(1, id);
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

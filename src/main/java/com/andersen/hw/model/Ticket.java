@@ -21,19 +21,19 @@ public class Ticket implements Printable, Identifiable {
     private double maxAllowedBackpackWeightInKg;
     private LocalDateTime creationTime;
     private BigDecimal ticketPrice;
-    private Client client;
+    private User client;
     private TicketType ticketType;
 
     private static final String DATA_TIME_FORMAT = "yyyy.MM.dd, HH:mm";
 
 
-    public Ticket(String ticketId, TicketType ticketType, Client client) {
+    public Ticket(String ticketId, TicketType ticketType, User client) {
         this.ticketType = ticketType;
         this.client = client;
         this.ticketId = ticketId;
     }
 
-    public Ticket(String ticketId, TicketType ticketType, Client client, LocalDateTime creationTime) {
+    public Ticket(String ticketId, TicketType ticketType, User client, LocalDateTime creationTime) {
         this.ticketId = ticketId;
         this.ticketType = ticketType;
         this.client = client;
@@ -167,11 +167,11 @@ public class Ticket implements Printable, Identifiable {
         this.ticketType = ticketType;
     }
 
-    public Client getClient() {
+    public User getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(User client) {
         this.client = client;
     }
 
