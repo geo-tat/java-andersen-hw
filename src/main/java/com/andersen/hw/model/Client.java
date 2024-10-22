@@ -8,7 +8,7 @@ public class Client extends User {
         super(name);
     }
 
-    public Client(Long userId, String name, LocalDateTime creationDate) {
+    public Client(Integer userId, String name, LocalDateTime creationDate) {
         super(userId, name, creationDate);
     }
 

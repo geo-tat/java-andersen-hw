@@ -2,6 +2,7 @@ package com.andersen.hw.model;
 
 import com.andersen.hw.enums.SectorType;
 import com.andersen.hw.enums.TicketType;
+import com.andersen.hw.util.IdGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,9 +11,9 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Ticket implements Printable, Identifiable {
-    private int classId;
-    private Long ticketId;
+public class Ticket implements Printable {
+
+    private Integer id;
     private String concertHall;
     private String eventCode;
     private LocalDateTime time;
@@ -30,19 +31,18 @@ public class Ticket implements Printable, Identifiable {
     public Ticket(TicketType ticketType, User client) {
         this.ticketType = ticketType;
         this.client = client;
+        this.id = IdGenerator.generateId();
     }
 
-    public Ticket(Long ticketId, TicketType ticketType, User client, LocalDateTime creationTime) {
-        this.ticketId = ticketId;
+    public Ticket(Integer ticketId, TicketType ticketType, User client, LocalDateTime creationTime) {
+        this.id = ticketId;
         this.ticketType = ticketType;
         this.client = client;
         this.creationTime = creationTime;
     }
 
     public Ticket() {
-
-        this.classId = generateId();
-        this.ticketId = 0L;
+        this.id = IdGenerator.generateId();
         this.concertHall = "";
         this.eventCode = "";
         this.isPromo = false;
@@ -58,7 +58,7 @@ public class Ticket implements Printable, Identifiable {
                   SectorType stadiumSector,
                   double maxAllowedBackpackWeightInKg,
                   BigDecimal ticketPrice) {
-        this.classId = generateId();
+
         if (ticketId > 9999) {
             throw new IllegalArgumentException("Size over 4 symbols");
         }
@@ -78,7 +78,7 @@ public class Ticket implements Printable, Identifiable {
             throw new IllegalArgumentException("Invalid argument");
         }
 
-        this.ticketId = ticketId;
+        this.id = IdGenerator.generateId();
         this.concertHall = concertHall;
         this.eventCode = eventCode;
         this.time = time;
@@ -92,7 +92,6 @@ public class Ticket implements Printable, Identifiable {
                   String eventCode,
                   LocalDateTime time) {
 
-        this.classId = generateId();
 
         if (concertHall.length() > 10) {
             throw new IllegalArgumentException("Size over 10 chars");
@@ -104,15 +103,15 @@ public class Ticket implements Printable, Identifiable {
         }
         this.eventCode = eventCode;
         this.time = time;
-        this.ticketId = 0L;
+        this.id = IdGenerator.generateId();
         this.isPromo = false;
         this.maxAllowedBackpackWeightInKg = 0.0;
         this.ticketPrice = BigDecimal.ZERO;
     }
 
 
-    public Long getTicketId() {
-        return ticketId;
+    public Integer getId() {
+        return id;
     }
 
     public String getConcertHall() {
@@ -177,7 +176,7 @@ public class Ticket implements Printable, Identifiable {
     public void printTicketInfo() {
         System.out.println("Ticket:" +
 
-                "\nid='" + ticketId + '\'' +
+                "\nid='" + id + '\'' +
                 ",\nconcertHall='" + concertHall + '\'' +
                 ",\neventCode='" + eventCode + '\'' +
                 ",\ntime=" + time.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT)) +
@@ -193,18 +192,18 @@ public class Ticket implements Printable, Identifiable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return Objects.equals(ticketId, ticket.ticketId) && Objects.equals(creationTime, ticket.creationTime);
+        return Objects.equals(id, ticket.id) && Objects.equals(creationTime, ticket.creationTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ticketId, creationTime);
+        return Objects.hash(id, creationTime);
     }
 
     @Override
     public String toString() {
         return "Ticket{" +
-                "ticketId='" + ticketId + '\'' +
+                "id='" + id + '\'' +
                 ", concertHall='" + concertHall + '\'' +
                 ", eventCode='" + eventCode + '\'' +
                 ", time=" + time +
@@ -215,10 +214,4 @@ public class Ticket implements Printable, Identifiable {
                 ", ticketPrice=" + ticketPrice +
                 '}';
     }
-
-    @Override
-    public int getId() {
-        return classId;
-    }
-
 }

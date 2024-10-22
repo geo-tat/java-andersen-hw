@@ -4,29 +4,24 @@ import com.andersen.hw.util.IdGenerator;
 
 import java.time.LocalDateTime;
 
-abstract public class User implements Identifiable, Printable {
+abstract public class User implements Printable {
     private String name;
-    private Long userId;
+    private Integer id;
     private LocalDateTime creationDate;
-    private int classId;
+
 
     public User() {
-        this.classId = IdGenerator.generateId();
     }
 
     public User(String name) {
+        this.id = IdGenerator.generateId();
         this.name = name;
     }
 
-    public User(Long userId, String name, LocalDateTime creationDate) {
+    public User(Integer userId, String name, LocalDateTime creationDate) {
         this.name = name;
-        this.userId = userId;
+        this.id = userId;
         this.creationDate = creationDate;
-    }
-
-    @Override
-    public int getId() {
-        return classId;
     }
 
     abstract void printRole();
@@ -39,13 +34,10 @@ abstract public class User implements Identifiable, Printable {
         this.name = name;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
 
     public LocalDateTime getCreationDate() {
         return creationDate;
@@ -59,7 +51,7 @@ abstract public class User implements Identifiable, Printable {
     public String toString() {
         return "User{" +
                 "creationDate=" + creationDate +
-                ", userId=" + userId +
+                ", userId=" + id +
                 ", name='" + name + '\'' +
                 '}';
     }

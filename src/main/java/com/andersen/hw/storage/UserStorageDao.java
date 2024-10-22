@@ -3,6 +3,7 @@ package com.andersen.hw.storage;
 import com.andersen.hw.config.DatabaseConnectionManager;
 import com.andersen.hw.model.Client;
 import com.andersen.hw.model.User;
+import com.andersen.hw.util.IdGenerator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,13 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserStorageDao implements UserStorage {
+    private final int classId;
+
+    public UserStorageDao() {
+        this.classId = IdGenerator.generateId();
+    }
+
     @Override
     public void addUser(User user) {
-        String sql = "INSERT INTO user_info (name) VALUES (?)";
+        String sql = "INSERT INTO user_info (id, name) VALUES (?, ?)";
 
         try (Connection conn = DatabaseConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, user.getName());
+            stmt.setInt(1, user.getId());
+            stmt.setString(2, user.getName());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -28,7 +36,7 @@ public class UserStorageDao implements UserStorage {
     }
 
     @Override
-    public User getById(long id) {
+    public User getById(Integer id) {
         String sql = "SELECT * FROM user_info WHERE id = ?";
         Client client = null;
 
@@ -60,7 +68,7 @@ public class UserStorageDao implements UserStorage {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Long id = rs.getLong("id");
+                Integer id = rs.getInt("id");
                 String name = rs.getString("name");
                 LocalDateTime creationDate = rs.getTimestamp("creation_date").toLocalDateTime();
                 clients.add(new Client(id, name, creationDate));
@@ -73,7 +81,7 @@ public class UserStorageDao implements UserStorage {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Integer id) {
         String deleteTicketsSql = "DELETE FROM ticket WHERE user_id = ?";
         String deleteUserSql = "DELETE FROM user_info WHERE id = ?";
 
@@ -97,7 +105,7 @@ public class UserStorageDao implements UserStorage {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, user.getName());
-            stmt.setLong(2, user.getUserId());
+            stmt.setLong(2, user.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

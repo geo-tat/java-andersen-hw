@@ -42,10 +42,10 @@ public class Main {
         Ticket result = service.getAll().getFirst();
         System.out.println(result.toString());
 
-        service.deleteById(service.getAll().getFirst().getTicketId());
+        service.deleteById(service.getAll().getFirst().getId());
 
         for (User user : users) {
-            userService.deleteById(user.getUserId());
+            userService.deleteById(user.getId());
         }
     }
 }

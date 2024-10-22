@@ -4,6 +4,7 @@ import com.andersen.hw.config.DatabaseConnectionManager;
 import com.andersen.hw.enums.TicketType;
 import com.andersen.hw.model.Client;
 import com.andersen.hw.model.Ticket;
+import com.andersen.hw.util.IdGenerator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,15 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TicketStorageDao implements TicketStorage {
+    private final int classId;
+
+    public TicketStorageDao() {
+        this.classId = IdGenerator.generateId();
+    }
+
     @Override
     public void addTicket(Ticket ticket) {
-        String sql = "INSERT INTO ticket (ticket_type, user_id) VALUES (?, ?)";
+        String sql = "INSERT INTO ticket (id, ticket_type, user_id) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setObject(1, ticket.getTicketType().name(), java.sql.Types.OTHER);
-            stmt.setLong(2, ticket.getClient().getUserId());
+            stmt.setInt(1, ticket.getId());
+            stmt.setObject(2, ticket.getTicketType().name(), java.sql.Types.OTHER);
+            stmt.setLong(3, ticket.getClient().getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -32,7 +39,7 @@ public class TicketStorageDao implements TicketStorage {
     }
 
     @Override
-    public Ticket getById(Long id) {
+    public Ticket getById(Integer id) {
         String sql = "SELECT t.id, t.ticket_type, t.creation_date AS ticket_creation_date, " +
                 "u.id AS user_id, u.name, u.creation_date AS user_creation_date " +
                 "FROM ticket t " +
@@ -50,7 +57,7 @@ public class TicketStorageDao implements TicketStorage {
                 TicketType ticketType = TicketType.valueOf(rs.getString("ticket_type"));
 
 
-                long userId = rs.getLong("user_id");
+                Integer userId = rs.getInt("user_id");
                 String name = rs.getString("name");
                 LocalDateTime userCreationDate = rs.getTimestamp("user_creation_date").toLocalDateTime();
                 Client client = new Client(userId, name, userCreationDate);
@@ -78,10 +85,10 @@ public class TicketStorageDao implements TicketStorage {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Long ticketId = rs.getLong("id");
+                Integer ticketId = rs.getInt("id");
                 TicketType ticketType = TicketType.valueOf(rs.getString("ticket_type"));
 
-                long userId = rs.getLong("user_id");
+                Integer userId = rs.getInt("user_id");
                 String name = rs.getString("name");
                 LocalDateTime userCreationDate = rs.getTimestamp("user_creation_date").toLocalDateTime();
                 Client client = new Client(userId, name, userCreationDate);
@@ -97,7 +104,7 @@ public class TicketStorageDao implements TicketStorage {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         String sql = "DELETE FROM ticket WHERE id = ?";
 
         try (Connection conn = DatabaseConnectionManager.getConnection();
@@ -118,7 +125,7 @@ public class TicketStorageDao implements TicketStorage {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, ticket.getTicketType().name());
-            stmt.setLong(2, ticket.getTicketId());
+            stmt.setLong(2, ticket.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

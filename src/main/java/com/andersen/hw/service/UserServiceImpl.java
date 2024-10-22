@@ -2,13 +2,16 @@ package com.andersen.hw.service;
 
 import com.andersen.hw.model.User;
 import com.andersen.hw.storage.UserStorageDao;
+import com.andersen.hw.util.IdGenerator;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
+    private final int classId;
     private final UserStorageDao userStorageDao;
 
     public UserServiceImpl(UserStorageDao userStorageDao) {
+        this.classId = IdGenerator.generateId();
         this.userStorageDao = userStorageDao;
     }
 
@@ -21,7 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(Long id) {
+    public User getById(Integer id) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
@@ -38,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
