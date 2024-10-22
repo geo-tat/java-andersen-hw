@@ -7,11 +7,11 @@ import java.util.List;
 public interface TicketStorage {
     void addTicket(Ticket ticket);
 
-    Ticket getById(String id);
+    Ticket getById(Long id);
 
     List<Ticket> getAll();
 
-    void deleteById(String id);
+    void deleteById(Long id);
 
     void updateTicket(Ticket ticket);
 }

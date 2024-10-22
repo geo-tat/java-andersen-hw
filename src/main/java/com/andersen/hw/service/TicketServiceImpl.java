@@ -30,8 +30,8 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
     }
 
     @Override
-    public Ticket getById(String id) {
-        if (id == null || id.isEmpty()) {
+    public Ticket getById(Long id) {
+        if (id == null) {
             throw new IllegalArgumentException("ID cannot be null or empty");
         }
         Ticket ticket = ticketStorageDao.getById(id);
@@ -48,8 +48,8 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
     }
 
     @Override
-    public void deleteById(String id) {
-        if (id == null || id.isEmpty()) {
+    public void deleteById(Long id) {
+        if (id == null) {
             throw new IllegalArgumentException("ID cannot be null or empty");
         }
         ticketStorageDao.deleteById(id);
@@ -64,13 +64,13 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
     }
 
     @Override
-    public void share(String ticketId, String phone) {
+    public void share(Long ticketId, String phone) {
         getById(ticketId);
         System.out.println("Send to the phone number: " + phone);
     }
 
     @Override
-    public void share(String ticketId, String phone, String email) {
+    public void share(Long ticketId, String phone, String email) {
         getById(ticketId);
         System.out.println("Sending to the phone number: " + phone + " and to the email: " + email);
     }

@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class Ticket implements Printable, Identifiable {
     private int classId;
-    private String ticketId;
+    private Long ticketId;
     private String concertHall;
     private String eventCode;
     private LocalDateTime time;
@@ -27,13 +27,12 @@ public class Ticket implements Printable, Identifiable {
     private static final String DATA_TIME_FORMAT = "yyyy.MM.dd, HH:mm";
 
 
-    public Ticket(String ticketId, TicketType ticketType, User client) {
+    public Ticket(TicketType ticketType, User client) {
         this.ticketType = ticketType;
         this.client = client;
-        this.ticketId = ticketId;
     }
 
-    public Ticket(String ticketId, TicketType ticketType, User client, LocalDateTime creationTime) {
+    public Ticket(Long ticketId, TicketType ticketType, User client, LocalDateTime creationTime) {
         this.ticketId = ticketId;
         this.ticketType = ticketType;
         this.client = client;
@@ -43,7 +42,7 @@ public class Ticket implements Printable, Identifiable {
     public Ticket() {
 
         this.classId = generateId();
-        this.ticketId = "";
+        this.ticketId = 0L;
         this.concertHall = "";
         this.eventCode = "";
         this.isPromo = false;
@@ -51,7 +50,7 @@ public class Ticket implements Printable, Identifiable {
         this.ticketPrice = BigDecimal.ZERO;
     }
 
-    public Ticket(String ticketId, String concertHall,
+    public Ticket(Long ticketId, String concertHall,
 
                   String eventCode,
                   LocalDateTime time,
@@ -60,7 +59,7 @@ public class Ticket implements Printable, Identifiable {
                   double maxAllowedBackpackWeightInKg,
                   BigDecimal ticketPrice) {
         this.classId = generateId();
-        if (ticketId.length() > 4) {
+        if (ticketId > 9999) {
             throw new IllegalArgumentException("Size over 4 symbols");
         }
         if (concertHall.length() > 10) {
@@ -105,14 +104,14 @@ public class Ticket implements Printable, Identifiable {
         }
         this.eventCode = eventCode;
         this.time = time;
-        this.ticketId = "";
+        this.ticketId = 0L;
         this.isPromo = false;
         this.maxAllowedBackpackWeightInKg = 0.0;
         this.ticketPrice = BigDecimal.ZERO;
     }
 
 
-    public String getTicketId() {
+    public Long getTicketId() {
         return ticketId;
     }
 

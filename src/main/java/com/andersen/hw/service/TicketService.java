@@ -7,15 +7,15 @@ import java.util.List;
 public interface TicketService {
     void addTicket(Ticket ticket);
 
-    Ticket getById(String id);
+    Ticket getById(Long id);
 
     List<Ticket> getAll();
 
-    void deleteById(String id);
+    void deleteById(Long id);
 
     void updateTicket(Ticket ticket);
 
-    void share(String ticketId, String phone);
+    void share(Long ticketId, String phone);
 
-    void share(String ticketId, String phone, String email);
+    void share(Long ticketId, String phone, String email);
 }

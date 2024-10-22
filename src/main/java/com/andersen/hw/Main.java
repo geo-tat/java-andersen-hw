@@ -28,8 +28,8 @@ public class Main {
         List<User> users = userService.getAll();
 
 
-        Ticket ticket = new Ticket("021", TicketType.DAY, users.getFirst());
-        Ticket ticket1 = new Ticket("001", TicketType.MONTH, users.getFirst());
+        Ticket ticket = new Ticket( TicketType.DAY, users.getFirst());
+        Ticket ticket1 = new Ticket( TicketType.MONTH, users.getFirst());
 
         service.addTicket(ticket);
         service.addTicket(ticket1);
@@ -39,10 +39,10 @@ public class Main {
             System.out.println(user.toString());
 
         }
-        Ticket result = service.getById("001");
+        Ticket result = service.getAll().getFirst();
         System.out.println(result.toString());
 
-        service.deleteById("021");
+        service.deleteById(service.getAll().getFirst().getTicketId());
 
         for (User user : users) {
             userService.deleteById(user.getUserId());

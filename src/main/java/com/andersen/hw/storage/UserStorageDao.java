@@ -16,7 +16,7 @@ import java.util.List;
 public class UserStorageDao implements UserStorage {
     @Override
     public void addUser(User user) {
-        String sql = "INSERT INTO public.user (name) VALUES (?)";
+        String sql = "INSERT INTO user_info (name) VALUES (?)";
 
         try (Connection conn = DatabaseConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -29,7 +29,7 @@ public class UserStorageDao implements UserStorage {
 
     @Override
     public User getById(long id) {
-        String sql = "SELECT * FROM public.user WHERE id = ?";
+        String sql = "SELECT * FROM user_info WHERE id = ?";
         Client client = null;
 
         try (Connection conn = DatabaseConnectionManager.getConnection();
@@ -52,7 +52,7 @@ public class UserStorageDao implements UserStorage {
 
     @Override
     public List<User> getAll() {
-        String sql = "SELECT * FROM public.user";
+        String sql = "SELECT * FROM user_info";
         List<User> clients = new ArrayList<>();
 
         try (Connection conn = DatabaseConnectionManager.getConnection();
@@ -74,14 +74,11 @@ public class UserStorageDao implements UserStorage {
 
     @Override
     public void deleteById(long id) {
-        String deleteTicketsSql = "DELETE FROM public.ticket WHERE user_id = ?";
-        String deleteUserSql = "DELETE FROM public.user WHERE id = ?";
+        String deleteTicketsSql = "DELETE FROM ticket WHERE user_id = ?";
+        String deleteUserSql = "DELETE FROM user_info WHERE id = ?";
 
         try (Connection conn = DatabaseConnectionManager.getConnection()) {
-            try (PreparedStatement stmt = conn.prepareStatement(deleteTicketsSql)) {
-                stmt.setLong(1, id);
-                stmt.executeUpdate();
-            }
+
 
             try (PreparedStatement stmt = conn.prepareStatement(deleteUserSql)) {
                 stmt.setLong(1, id);
@@ -94,7 +91,7 @@ public class UserStorageDao implements UserStorage {
 
     @Override
     public void updateUser(User user) {
-        String sql = "UPDATE public.user SET name = ? WHERE id = ?";
+        String sql = "UPDATE user_info SET name = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
