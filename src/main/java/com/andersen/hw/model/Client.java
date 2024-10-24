@@ -1,9 +1,16 @@
 package com.andersen.hw.model;
 
 
+import jakarta.persistence.Entity;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class Client extends User {
+    public Client() {
+        super();
+    }
+
     public Client(String name) {
         super(name);
     }
