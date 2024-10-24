@@ -12,25 +12,25 @@ import java.util.List;
 import java.util.Map;
 
 
-public class TicketStorageImpl implements TicketStorage, Identifiable, Printable {
+public class TicketStorageInMemoryImpl implements TicketStorage, Identifiable, Printable {
     private final int classId;
-    private final Map<String, Ticket> tickets = new HashMap<>();
+    private final Map<Integer, Ticket> tickets = new HashMap<>();
     private final CustomArrayList<Ticket> customArrayTikets = new CustomArrayList<>();
     private final CustomHashSet<Ticket> customHashSetTickets = new CustomHashSet<>();
 
-    public TicketStorageImpl() {
+    public TicketStorageInMemoryImpl() {
         this.classId = generateId();
     }
 
     @Override
     public void addTicket(Ticket ticket) {
-        tickets.put(ticket.getTicketId(), ticket);
+        tickets.put(ticket.getId(), ticket);
         customArrayTikets.put(ticket);
         customHashSetTickets.put(ticket);
     }
 
     @Override
-    public Ticket getById(String id) {
+    public Ticket getById(Integer id) {
         return tickets.get(id);
     }
 
@@ -40,8 +40,13 @@ public class TicketStorageImpl implements TicketStorage, Identifiable, Printable
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
         tickets.remove(id);
+    }
+
+    @Override
+    public void updateTicket(Ticket ticket) {
+
     }
 
     @Override

@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: my_postgres_db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: my_ticket_service_db
+    volumes:
+      - ./src/main/resources:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"

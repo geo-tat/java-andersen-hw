@@ -6,7 +6,12 @@ import java.util.List;
 
 public interface TicketStorage {
     void addTicket(Ticket ticket);
-    Ticket getById(String id);
+
+    Ticket getById(Integer id);
+
     List<Ticket> getAll();
-    void deleteById(String id);
+
+    void deleteById(Integer id);
+
+    void updateTicket(Ticket ticket);
 }
