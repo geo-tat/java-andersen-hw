@@ -4,18 +4,18 @@ import com.andersen.hw.model.Identifiable;
 import com.andersen.hw.model.Printable;
 import com.andersen.hw.model.Ticket;
 import com.andersen.hw.storage.TicketStorageDao;
-import com.andersen.hw.storage.TicketStorageInMemoryImpl;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class TicketServiceImpl implements TicketService, Identifiable, Printable {
     private final int classId;
-    private final TicketStorageInMemoryImpl ticketStorage;
+
     private final TicketStorageDao ticketStorageDao;
 
-    public TicketServiceImpl(TicketStorageInMemoryImpl ticketStorage, TicketStorageDao ticketStorageDao) {
-        this.ticketStorage = ticketStorage;
+    public TicketServiceImpl(TicketStorageDao ticketStorageDao) {
+
         this.ticketStorageDao = ticketStorageDao;
         this.classId = generateId();
     }

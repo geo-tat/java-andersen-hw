@@ -3,9 +3,11 @@ package com.andersen.hw.service;
 import com.andersen.hw.model.User;
 import com.andersen.hw.storage.UserStorageDao;
 import com.andersen.hw.util.IdGenerator;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
     private final int classId;
     private final UserStorageDao userStorageDao;
