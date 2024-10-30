@@ -1,11 +1,12 @@
 package com.andersen.hw.storage;
 
-import com.andersen.hw.config.DatabaseConnectionManager;
 import com.andersen.hw.enums.TicketType;
 import com.andersen.hw.model.Client;
 import com.andersen.hw.model.Ticket;
 import com.andersen.hw.util.IdGenerator;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,18 +16,22 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class TicketStorageDao implements TicketStorage {
+    private final DataSource dataSource;
+
     private final int classId;
 
-    public TicketStorageDao() {
+    public TicketStorageDao(DataSource dataSource) {
         this.classId = IdGenerator.generateId();
+        this.dataSource = dataSource;
     }
 
     @Override
     public void addTicket(Ticket ticket) {
         String sql = "INSERT INTO ticket (id, ticket_type, user_id) VALUES (?, ?, ?)";
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, ticket.getId());
             stmt.setObject(2, ticket.getTicketType().name(), java.sql.Types.OTHER);
@@ -47,7 +52,7 @@ public class TicketStorageDao implements TicketStorage {
                 "WHERE t.id = ?";
         Ticket ticket = null;
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);
@@ -80,7 +85,7 @@ public class TicketStorageDao implements TicketStorage {
                 "JOIN user_info u ON t.user_id = u.id";
         List<Ticket> tickets = new ArrayList<>();
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = dataSource.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -107,7 +112,7 @@ public class TicketStorageDao implements TicketStorage {
     public void deleteById(Integer id) {
         String sql = "DELETE FROM ticket WHERE id = ?";
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);
@@ -121,7 +126,7 @@ public class TicketStorageDao implements TicketStorage {
     public void updateTicket(Ticket ticket) {
         String sql = "UPDATE ticket SET ticket_type = ? WHERE id = ?";
 
-        try (Connection conn = DatabaseConnectionManager.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, ticket.getTicketType().name());
