@@ -14,4 +14,6 @@ public interface UserStorage {
     void deleteById(Integer id);
 
     void updateUser(User user);
+
+    void updateUserStatus(User user);
 }

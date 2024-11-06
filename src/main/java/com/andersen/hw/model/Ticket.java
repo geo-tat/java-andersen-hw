@@ -3,6 +3,8 @@ package com.andersen.hw.model;
 import com.andersen.hw.enums.SectorType;
 import com.andersen.hw.enums.TicketType;
 import com.andersen.hw.util.IdGenerator;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,6 +13,8 @@ import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
 
+@Setter
+@Getter
 public class Ticket implements Printable {
 
     private Integer id;
@@ -109,68 +113,8 @@ public class Ticket implements Printable {
         this.ticketPrice = BigDecimal.ZERO;
     }
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getConcertHall() {
-        return concertHall;
-    }
-
-
-    public String getEventCode() {
-        return eventCode;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
     public boolean isPromo() {
         return isPromo;
-    }
-
-    public SectorType getStadiumSector() {
-        return stadiumSector;
-    }
-
-    public void setStadiumSector(SectorType stadiumSector) {
-        this.stadiumSector = stadiumSector;
-    }
-
-    public double getMaxAllowedBackpackWeightInKg() {
-        return maxAllowedBackpackWeightInKg;
-    }
-
-
-    public BigDecimal getTicketPrice() {
-        return ticketPrice;
-    }
-
-
-    public LocalDateTime getCreationTime() {
-        return creationTime;
-    }
-
-    public TicketType getTicketType() {
-        return ticketType;
-    }
-
-    public void setTicketType(TicketType ticketType) {
-        this.ticketType = ticketType;
-    }
-
-    public User getClient() {
-        return client;
-    }
-
-    public void setClient(User client) {
-        this.client = client;
     }
 
     public void printTicketInfo() {

@@ -14,4 +14,6 @@ public interface TicketStorage {
     void deleteById(Integer id);
 
     void updateTicket(Ticket ticket);
+
+    List<Ticket> getByUserId(List<Integer> userIds);
 }

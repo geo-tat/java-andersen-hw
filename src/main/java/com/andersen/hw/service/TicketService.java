@@ -1,6 +1,7 @@
 package com.andersen.hw.service;
 
 import com.andersen.hw.model.Ticket;
+import com.andersen.hw.model.User;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface TicketService {
     void share(Integer ticketId, String phone);
 
     void share(Integer ticketId, String phone, String email);
+
+    void updateUserStatusAndCreateTicket(User user, Ticket ticket);
 }
