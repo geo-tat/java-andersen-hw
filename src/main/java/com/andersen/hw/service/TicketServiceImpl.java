@@ -78,11 +78,11 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
     @Override
     @Transactional
     public void updateUserStatusAndCreateTicket(User user, Ticket ticket) {
-        if (updateUserFlag) {
-            userStorageDao.updateUserStatus(user);
-            ticketStorageDao.addTicket(ticket);
+        if (!updateUserFlag) {
+            throw new IllegalArgumentException("The operation is disabled now");
         }
-        throw new IllegalArgumentException("The operation is disabled now");
+        userStorageDao.updateUserStatus(user);
+        ticketStorageDao.addTicket(ticket);
     }
 
     @Override

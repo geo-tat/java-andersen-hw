@@ -3,7 +3,6 @@ package com.andersen.hw.storage;
 import com.andersen.hw.mapper.UserMapper;
 import com.andersen.hw.model.User;
 import com.andersen.hw.util.IdGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +14,7 @@ public class UserStorageDao implements UserStorage {
     private final UserMapper userMapper;
     private final int classId;
 
-    @Autowired
+
     public UserStorageDao(JdbcTemplate jdbcTemplate, UserMapper userMapper) {
         this.classId = IdGenerator.generateId();
         this.userMapper = userMapper;
