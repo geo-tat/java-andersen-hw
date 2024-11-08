@@ -1,13 +1,21 @@
 package com.andersen.hw.model;
 
+import com.andersen.hw.enums.UserStatus;
 import com.andersen.hw.util.IdGenerator;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Getter
+@Setter
 abstract public class User implements Printable {
     private String name;
     private Integer id;
     private LocalDateTime creationDate;
+    private List<Ticket> tickets;
+    private UserStatus userStatus = UserStatus.DEACTIVATED;
 
 
     public User() {
@@ -25,27 +33,6 @@ abstract public class User implements Printable {
     }
 
     abstract void printRole();
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
 
     @Override
     public String toString() {

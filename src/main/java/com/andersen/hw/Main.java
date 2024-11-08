@@ -3,30 +3,32 @@ package com.andersen.hw;
 
 import com.andersen.hw.config.AppSpringConfig;
 import com.andersen.hw.enums.TicketType;
+import com.andersen.hw.model.BusTicket;
 import com.andersen.hw.model.Client;
 import com.andersen.hw.model.Ticket;
 import com.andersen.hw.model.User;
 import com.andersen.hw.service.TicketService;
-import com.andersen.hw.service.TicketServiceImpl;
 import com.andersen.hw.service.UserService;
-import com.andersen.hw.service.UserServiceImpl;
+import com.andersen.hw.util.TicketDataReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.io.IOException;
 import java.util.List;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppSpringConfig.class);
 
 
-        TicketService ticketService = context.getBean(TicketServiceImpl.class);
-        UserService userService = context.getBean(UserServiceImpl.class);
+        TicketService ticketService = context.getBean(TicketService.class);
+        UserService userService = context.getBean(UserService.class);
 
         Client client1 = new Client("Andy");
         Client client2 = new Client("Mickey");
-
+        userService.deleteById(5);
+        userService.deleteById(6);
         userService.addUser(client1);
         userService.addUser(client2);
         List<User> users = userService.getAll();
@@ -50,5 +52,11 @@ public class Main {
         for (User user : users) {
             userService.deleteById(user.getId());
         }
+
+        TicketDataReader busTicketFileReader = context.getBean(TicketDataReader.class);
+        List<BusTicket> busTickets = busTicketFileReader.getBusTickets();
+        System.out.println(busTickets);
     }
+
+
 }
