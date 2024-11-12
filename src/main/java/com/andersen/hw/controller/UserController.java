@@ -27,33 +27,33 @@ public class UserController {
     private final TicketService ticketService;
 
     @PostMapping
-    void createUser(@RequestBody User user) {
+   public void createUser(@RequestBody User user) {
         userService.addUser(user);
     }
 
     @GetMapping("/{id}")
-    User getById(@PathVariable Integer id) {
+   public User getById(@PathVariable Integer id) {
         return userService.getById(id);
     }
 
     @GetMapping
-    List<User> getAll() {
+   public List<User> getAll() {
         return userService.getAll();
     }
 
     @PutMapping("/{id}")
-    void update(@PathVariable Integer id,
+   public void update(@PathVariable Integer id,
                 @RequestBody User user) {
         userService.updateUser(id, user);
     }
 
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Integer id) {
+   public void delete(@PathVariable Integer id) {
         userService.deleteById(id);
     }
 
     @PutMapping("/{id}/status")
-    void updateStatusAndCreateTicket(@PathVariable Integer id,
+   public void updateStatusAndCreateTicket(@PathVariable Integer id,
                                      @RequestParam UserStatus userStatus,
                                      @RequestBody Ticket ticket) {
         userService.updateUserStatus(id, userStatus);

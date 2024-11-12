@@ -22,31 +22,30 @@ public class TicketController {
     private final TicketService ticketService;
 
     @PostMapping
-    void createTicket(@RequestBody Ticket ticket) {
+    public void createTicket(@RequestBody Ticket ticket) {
         ticketService.addTicket(ticket);
     }
 
     @GetMapping
-    List<TicketDtoOut> getAllTickets() {
-       return ticketService.getAll();
+    public List<TicketDtoOut> getAllTickets() {
+        return ticketService.getAll();
     }
 
     @GetMapping("/{id}")
-    TicketDtoOut getTicketById(@PathVariable Integer id) {
+    public TicketDtoOut getTicketById(@PathVariable Integer id) {
         return ticketService.getById(id);
     }
 
     @DeleteMapping("/{id}")
-    void deleteTicket(@PathVariable Integer id) {
+    public void deleteTicket(@PathVariable Integer id) {
         ticketService.deleteById(id);
     }
 
     @PutMapping("/{id}")
-    void updateTicket(@PathVariable Integer id,
-                      @RequestBody Ticket ticket) {
-        ticketService.updateTicket(id,ticket);
+    public void updateTicket(@PathVariable Integer id,
+                             @RequestBody Ticket ticket) {
+        ticketService.updateTicket(id, ticket);
     }
-
 
 
 }

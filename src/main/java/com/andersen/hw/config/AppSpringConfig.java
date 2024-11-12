@@ -9,7 +9,7 @@ public class AppSpringConfig {
 
     @Bean
     @ConditionalOnProperty(name = "custom.bean.enabled", havingValue = "true")
-    public String thisIsMyFirstConditionalBean() {
-        return "My Bean";
+    public ThisIsMyFirstConditionalBean thisIsMyFirstConditionalBean() {
+        return new ThisIsMyFirstConditionalBean();
     }
 }
