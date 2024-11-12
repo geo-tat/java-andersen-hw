@@ -1,5 +1,7 @@
 package com.andersen.hw.service;
 
+
+import com.andersen.hw.enums.UserStatus;
 import com.andersen.hw.model.User;
 
 import java.util.List;
@@ -13,5 +15,7 @@ public interface UserService {
 
     void deleteById(Integer id);
 
-    void updateUser(User user);
+    void updateUser(Integer id, User user);
+
+    void updateUserStatus(Integer id, UserStatus userStatus);
 }
