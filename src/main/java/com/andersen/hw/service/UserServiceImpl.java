@@ -1,11 +1,14 @@
 package com.andersen.hw.service;
 
+import com.andersen.hw.enums.UserStatus;
+import com.andersen.hw.exception.IllegalFlagException;
 import com.andersen.hw.model.Ticket;
 import com.andersen.hw.model.User;
-import com.andersen.hw.storage.TicketStorageDao;
-import com.andersen.hw.storage.UserStorageDao;
-import com.andersen.hw.util.IdGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.andersen.hw.repository.TicketRepository;
+import com.andersen.hw.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,17 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final int classId;
-    private final UserStorageDao userStorageDao;
-    private final TicketStorageDao ticketStorageDao;
+    @Value("${update-user-flag.enabled}")
+    private boolean updateUserFlag;
+    private final UserRepository userRepository;
+    private final TicketRepository ticketRepository;
 
-    @Autowired
-    public UserServiceImpl(UserStorageDao userStorageDao, TicketStorageDao ticketStorageDao) {
-        this.classId = IdGenerator.generateId();
-        this.userStorageDao = userStorageDao;
-        this.ticketStorageDao = ticketStorageDao;
-    }
 
     @Override
     @Transactional
@@ -31,31 +30,27 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
-        userStorageDao.addUser(user);
+        userRepository.save(user);
     }
 
     @Override
     public User getById(Integer id) {
-        if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null");
-        }
-        User client = userStorageDao.getById(id);
-        if (client == null) {
-            throw new IllegalArgumentException("Client with ID " + id + " not founded");
-        }
-        List<Ticket> ticketsByUser = ticketStorageDao.getByUserId(List.of(id));
+        User client = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Client with ID " + id + " not founded"));
+
+        List<Ticket> ticketsByUser = ticketRepository.findAllByUserIds(List.of(id));
         client.setTickets(ticketsByUser);
         return client;
     }
 
     @Override
     public List<User> getAll() {
-        List<User> users = userStorageDao.getAll();
+        List<User> users = userRepository.findAll();
         List<Integer> userIds = users.stream()
                 .map(User::getId)
                 .collect(Collectors.toList());
 
-        List<Ticket> tickets = ticketStorageDao.getByUserId(userIds);
+        List<Ticket> tickets = ticketRepository.findAllByUserIds(userIds);
 
         for (User user : users) {
             List<Ticket> userTickets = tickets.stream()
@@ -72,15 +67,35 @@ public class UserServiceImpl implements UserService {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
-        userStorageDao.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void updateUser(User user) {
+    public void updateUser(Integer id, User user) {
+        User client = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Client with ID " + id + " not founded"));
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
-        userStorageDao.updateUser(user);
+        client.setName(user.getName());
+        client.setUserStatus(user.getUserStatus());
+        userRepository.save(client);
+    }
+
+    @Override
+    public void updateUserStatus(Integer id, UserStatus userStatus) {
+        if (!updateUserFlag) {
+            throw new IllegalFlagException("The operation is disabled now");
+        }
+        User client = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Client with ID " + id + " not founded"));
+        client.setUserStatus(userStatus);
+        userRepository.save(client);
+    }
+
+    @Override
+    public void deleteAll() {
+        userRepository.deleteAll();
     }
 }

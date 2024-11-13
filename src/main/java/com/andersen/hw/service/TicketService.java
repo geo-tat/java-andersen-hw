@@ -1,24 +1,23 @@
 package com.andersen.hw.service;
 
+import com.andersen.hw.dto.TicketDtoOut;
 import com.andersen.hw.model.Ticket;
 import com.andersen.hw.model.User;
 
 import java.util.List;
 
 public interface TicketService {
-    void addTicket(Ticket ticket);
+    void addTicket(Integer userId, Ticket ticket);
 
-    Ticket getById(Integer id);
+    TicketDtoOut getById(Integer id);
 
-    List<Ticket> getAll();
+    List<TicketDtoOut> getAll();
 
     void deleteById(Integer id);
 
-    void updateTicket(Ticket ticket);
+    void updateTicket(Integer id, Ticket ticket);
 
     void share(Integer ticketId, String phone);
 
     void share(Integer ticketId, String phone, String email);
-
-    void updateUserStatusAndCreateTicket(User user, Ticket ticket);
-}
+   }

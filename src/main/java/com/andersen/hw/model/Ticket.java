@@ -2,9 +2,19 @@ package com.andersen.hw.model;
 
 import com.andersen.hw.enums.SectorType;
 import com.andersen.hw.enums.TicketType;
-import com.andersen.hw.util.IdGenerator;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CurrentTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,38 +25,53 @@ import java.util.Objects;
 
 @Setter
 @Getter
+@Entity
+@Table(name = "ticket")
 public class Ticket implements Printable {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Transient
     private String concertHall;
+    @Transient
     private String eventCode;
+    @Transient
     private LocalDateTime time;
+    @Transient
     private boolean isPromo;
+    @Transient
     private SectorType stadiumSector;
+    @Transient
     private double maxAllowedBackpackWeightInKg;
-    private LocalDateTime creationTime;
+    @CurrentTimestamp
+    private LocalDateTime creationDate;
+    @Transient
     private BigDecimal ticketPrice;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User client;
+    @Enumerated(EnumType.STRING)
     private TicketType ticketType;
 
     private static final String DATA_TIME_FORMAT = "yyyy.MM.dd, HH:mm";
 
+    public Ticket(TicketType ticketType) {
+        this.ticketType = ticketType;
+    }
 
     public Ticket(TicketType ticketType, User client) {
         this.ticketType = ticketType;
         this.client = client;
-        this.id = IdGenerator.generateId();
     }
 
-    public Ticket(Integer ticketId, TicketType ticketType, User client, LocalDateTime creationTime) {
+    public Ticket(Integer ticketId, TicketType ticketType, User client, LocalDateTime creationDate) {
         this.id = ticketId;
         this.ticketType = ticketType;
         this.client = client;
-        this.creationTime = creationTime;
+        this.creationDate = creationDate;
     }
 
     public Ticket() {
-        this.id = IdGenerator.generateId();
         this.concertHall = "";
         this.eventCode = "";
         this.isPromo = false;
@@ -82,7 +107,6 @@ public class Ticket implements Printable {
             throw new IllegalArgumentException("Invalid argument");
         }
 
-        this.id = IdGenerator.generateId();
         this.concertHall = concertHall;
         this.eventCode = eventCode;
         this.time = time;
@@ -107,7 +131,6 @@ public class Ticket implements Printable {
         }
         this.eventCode = eventCode;
         this.time = time;
-        this.id = IdGenerator.generateId();
         this.isPromo = false;
         this.maxAllowedBackpackWeightInKg = 0.0;
         this.ticketPrice = BigDecimal.ZERO;
@@ -127,7 +150,7 @@ public class Ticket implements Printable {
                 ",\nisPromo=" + isPromo +
                 ",\nstadiumSector=" + stadiumSector +
                 ",\nmaxAllowedBackpackWeightInKg=" + maxAllowedBackpackWeightInKg +
-                ",\ncreationTime=" + creationTime.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT)) +
+                ",\ncreationTime=" + creationDate.format(DateTimeFormatter.ofPattern(DATA_TIME_FORMAT)) +
                 ",\nticketPrice=" + ticketPrice + Currency.getInstance(Locale.US).getSymbol());
     }
 
@@ -136,12 +159,12 @@ public class Ticket implements Printable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return Objects.equals(id, ticket.id) && Objects.equals(creationTime, ticket.creationTime);
+        return Objects.equals(id, ticket.id) && Objects.equals(creationDate, ticket.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, creationTime);
+        return Objects.hash(id, creationDate);
     }
 
     @Override
@@ -154,7 +177,7 @@ public class Ticket implements Printable {
                 ", isPromo=" + isPromo +
                 ", stadiumSector=" + stadiumSector +
                 ", maxAllowedBackpackWeightInKg=" + maxAllowedBackpackWeightInKg +
-                ", creationTime=" + creationTime +
+                ", creationTime=" + creationDate +
                 ", ticketPrice=" + ticketPrice +
                 '}';
     }

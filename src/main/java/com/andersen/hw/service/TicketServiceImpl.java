@@ -1,60 +1,53 @@
 package com.andersen.hw.service;
 
-import com.andersen.hw.model.Identifiable;
-import com.andersen.hw.model.Printable;
+import com.andersen.hw.dto.TicketDtoOut;
+import com.andersen.hw.mapper.TicketMapper;
 import com.andersen.hw.model.Ticket;
 import com.andersen.hw.model.User;
-import com.andersen.hw.storage.TicketStorageDao;
-import com.andersen.hw.storage.UserStorageDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.andersen.hw.repository.TicketRepository;
+import com.andersen.hw.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class TicketServiceImpl implements TicketService, Identifiable, Printable {
-    @Value("${update-user-flag.enabled}")
-    private boolean updateUserFlag;
-    private final int classId;
+@RequiredArgsConstructor
+public class TicketServiceImpl implements TicketService {
 
-    private final UserStorageDao userStorageDao;
-    private final TicketStorageDao ticketStorageDao;
-
-    @Autowired
-    public TicketServiceImpl(TicketStorageDao ticketStorageDao, UserStorageDao userStorageDao) {
-        this.userStorageDao = userStorageDao;
-        this.ticketStorageDao = ticketStorageDao;
-        this.classId = generateId();
-    }
+    private final UserRepository userRepository;
+    private final TicketRepository ticketRepository;
 
 
     @Override
     @Transactional
-    public void addTicket(Ticket ticket) {
+    public void addTicket(Integer userId, Ticket ticket) {
+        User client = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Client with ID " + userId + " not founded"));
         if (ticket == null) {
             throw new IllegalArgumentException("Ticket cannot be null");
         }
-        ticketStorageDao.addTicket(ticket);
+
+        ticket.setClient(client);
+        ticketRepository.save(ticket);
     }
 
     @Override
-    public Ticket getById(Integer id) {
+    public TicketDtoOut getById(Integer id) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null or empty");
         }
-        Ticket ticket = ticketStorageDao.getById(id);
-        if (ticket == null) {
-            throw new IllegalArgumentException("Ticket with ID " + id + " not founded");
-        }
-        return ticket;
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Ticket with ID " + id + " not founded"));
+        return TicketMapper.toDto(ticket);
     }
 
     @Override
-    public List<Ticket> getAll() {
+    public List<TicketDtoOut> getAll() {
 
-        return ticketStorageDao.getAll();
+        return ticketRepository.findAll().stream().map(TicketMapper::toDto).toList();
     }
 
     @Override
@@ -63,26 +56,17 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null or empty");
         }
-        ticketStorageDao.deleteById(id);
+        ticketRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void updateTicket(Ticket ticket) {
-        if (ticket == null) {
-            throw new IllegalArgumentException("Ticket cannot be null");
-        }
-        ticketStorageDao.updateTicket(ticket);
-    }
-
-    @Override
-    @Transactional
-    public void updateUserStatusAndCreateTicket(User user, Ticket ticket) {
-        if (!updateUserFlag) {
-            throw new IllegalArgumentException("The operation is disabled now");
-        }
-        userStorageDao.updateUserStatus(user);
-        ticketStorageDao.addTicket(ticket);
+    public void updateTicket(Integer id, Ticket ticket) {
+        Ticket ticketToUpdate = ticketRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Ticket with ID " + id + " not founded"));
+        ticketToUpdate.setTicketType(ticket.getTicketType());
+        ticketToUpdate.setClient(ticket.getClient());
+        ticketRepository.save(ticketToUpdate);
     }
 
     @Override
@@ -95,10 +79,5 @@ public class TicketServiceImpl implements TicketService, Identifiable, Printable
     public void share(Integer ticketId, String phone, String email) {
         getById(ticketId);
         System.out.println("Sending to the phone number: " + phone + " and to the email: " + email);
-    }
-
-    @Override
-    public int getId() {
-        return classId;
     }
 }
