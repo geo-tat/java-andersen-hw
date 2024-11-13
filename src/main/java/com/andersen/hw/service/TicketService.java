@@ -7,7 +7,7 @@ import com.andersen.hw.model.User;
 import java.util.List;
 
 public interface TicketService {
-    void addTicket(Ticket ticket);
+    void addTicket(Integer userId, Ticket ticket);
 
     TicketDtoOut getById(Integer id);
 

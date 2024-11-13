@@ -55,6 +55,9 @@ public class Ticket implements Printable {
 
     private static final String DATA_TIME_FORMAT = "yyyy.MM.dd, HH:mm";
 
+    public Ticket(TicketType ticketType) {
+        this.ticketType = ticketType;
+    }
 
     public Ticket(TicketType ticketType, User client) {
         this.ticketType = ticketType;

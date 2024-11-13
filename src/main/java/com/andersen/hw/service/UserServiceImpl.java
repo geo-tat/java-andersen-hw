@@ -6,6 +6,7 @@ import com.andersen.hw.model.Ticket;
 import com.andersen.hw.model.User;
 import com.andersen.hw.repository.TicketRepository;
 import com.andersen.hw.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(Integer id) {
         User client = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Client with ID " + id + " not founded"));
+                .orElseThrow(() -> new EntityNotFoundException("Client with ID " + id + " not founded"));
 
         List<Ticket> ticketsByUser = ticketRepository.findAllByUserIds(List.of(id));
         client.setTickets(ticketsByUser);
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(Integer id, User user) {
         User client = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Client with ID " + id + " not founded"));
+                .orElseThrow(() -> new EntityNotFoundException("Client with ID " + id + " not founded"));
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
@@ -88,8 +89,13 @@ public class UserServiceImpl implements UserService {
             throw new IllegalFlagException("The operation is disabled now");
         }
         User client = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Client with ID " + id + " not founded"));
+                .orElseThrow(() -> new EntityNotFoundException("Client with ID " + id + " not founded"));
         client.setUserStatus(userStatus);
         userRepository.save(client);
+    }
+
+    @Override
+    public void deleteAll() {
+        userRepository.deleteAll();
     }
 }

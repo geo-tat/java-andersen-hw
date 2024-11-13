@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,8 +23,9 @@ public class TicketController {
     private final TicketService ticketService;
 
     @PostMapping
-    public void createTicket(@RequestBody Ticket ticket) {
-        ticketService.addTicket(ticket);
+    public void createTicket(@RequestBody Ticket ticket,
+                             @RequestParam Integer userId) {
+        ticketService.addTicket(userId, ticket);
     }
 
     @GetMapping
