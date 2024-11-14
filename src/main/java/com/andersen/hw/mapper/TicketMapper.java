@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TicketMapper {
-    public static TicketDtoOut toDto(Ticket ticket) {
-      return TicketDtoOut.builder()
-              .id(ticket.getId())
-              .ticketType(ticket.getTicketType())
-              .clientId(ticket.getClient().getId())
-              .creationDate(ticket.getCreationDate())
-              .build();
-    }
+  public static TicketDtoOut toDto(Ticket ticket) {
+    return TicketDtoOut.builder()
+        .id(ticket.getId())
+        .ticketType(ticket.getTicketType())
+        .clientId(ticket.getClient().getId())
+        .creationDate(ticket.getCreationDate())
+        .build();
+  }
 }

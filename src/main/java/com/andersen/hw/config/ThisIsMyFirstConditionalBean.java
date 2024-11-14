@@ -1,4 +1,3 @@
 package com.andersen.hw.config;
 
-public class ThisIsMyFirstConditionalBean {
-}
+public class ThisIsMyFirstConditionalBean {}

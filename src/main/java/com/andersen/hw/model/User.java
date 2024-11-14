@@ -11,51 +11,54 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CurrentTimestamp;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "user_info")
 public class User implements Printable {
-    private String name;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @CurrentTimestamp
-    private LocalDateTime creationDate;
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Ticket> tickets;
-    @Enumerated(EnumType.STRING)
-    private UserStatus userStatus = UserStatus.DEACTIVATED;
+  private String name;
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    public User() {
-    }
+  @CurrentTimestamp private LocalDateTime creationDate;
 
+  @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+  @JsonIgnore
+  private List<Ticket> tickets;
 
-    public User(String name) {
-        this.name = name;
-    }
+  @Enumerated(EnumType.STRING)
+  private UserStatus userStatus = UserStatus.DEACTIVATED;
 
-    public User(Integer userId, String name, LocalDateTime creationDate) {
-        this.name = name;
-        this.id = userId;
-        this.creationDate = creationDate;
-    }
+  public User() {}
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "creationDate=" + creationDate +
-                ", userId=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
+  public User(String name) {
+    this.name = name;
+  }
+
+  public User(Integer userId, String name, LocalDateTime creationDate) {
+    this.name = name;
+    this.id = userId;
+    this.creationDate = creationDate;
+  }
+
+  @Override
+  public String toString() {
+    return "User{"
+        + "creationDate="
+        + creationDate
+        + ", userId="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + '}';
+  }
 }
