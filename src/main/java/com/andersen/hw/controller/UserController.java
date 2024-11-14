@@ -27,8 +27,8 @@ public class UserController {
     private final TicketService ticketService;
 
     @PostMapping
-    public void createUser(@RequestBody User user) {
-        userService.addUser(user);
+    public User createUser(@RequestBody User user) {
+       return userService.addUser(user);
     }
 
     @GetMapping("/{id}")
