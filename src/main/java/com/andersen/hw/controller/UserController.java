@@ -54,7 +54,7 @@ public class UserController {
     userService.deleteAll();
   }
 
-  @PutMapping("/{id}/status")
+  @PutMapping("/{userId}/status")
   public void updateStatusAndCreateTicket(
       @PathVariable Integer userId,
       @RequestParam UserStatus userStatus,
